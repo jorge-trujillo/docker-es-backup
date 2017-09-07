@@ -1,0 +1,24 @@
+pipeline:
+
+  build-docker-pr:
+    when:
+      event: pull_request
+    image: plugins/docker
+    registry: merch-tools.docker.target.com
+    repo: merch-tools.docker.target.com/merch-tools/es-backup
+    dockerfile: Dockerfile
+    dry_run: true
+    tags:
+      - latest
+
+  # Build container
+  build-docker-tag:
+    when:
+      event: tag
+    image: plugins/docker
+    registry: merch-tools.docker.target.com
+    repo: merch-tools.docker.target.com/merch-tools/es-backup
+    dockerfile: Dockerfile
+    tags:
+      - latest
+      - ${DRONE_TAG}
